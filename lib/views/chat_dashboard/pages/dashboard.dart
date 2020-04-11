@@ -1,4 +1,5 @@
 import 'package:c/utils/size_config.dart';
+import 'package:c/views/chat_dashboard/widgets/titleBelowAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:c/views/chat_dashboard/widgets/appBar.dart';
 import 'package:c/views/chat_dashboard/widgets/friendsActive.dart';
@@ -10,28 +11,30 @@ class ChatDashboard extends StatelessWidget {
     /// responsive
     SizeConfig().init(context);
     return Scaffold(
-      body: ListView(shrinkWrap: true, children: <Widget>[
-        appBarCont() ,
-        Container(
-          height: SizeConfig.blockSizeVertical * 80,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    friendsActive(),
-                    chatList(),
-                  ],
+      backgroundColor: Color.fromRGBO(132, 192, 46, 1.0),
+      appBar: appBarCont(),
+      body: Column(
+        children: <Widget>[
+          TitleBelowAppBar(),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(28, 28, 28, 1.0),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
                 ),
               ),
-            ],
+              child: Column(
+                children: <Widget>[
+                  friendsActive(),
+                  chatList(),
+                ],
+              ),
+            ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
-
-
-
-
