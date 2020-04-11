@@ -1,3 +1,5 @@
+
+import 'package:c/views/chat_dashboard/pages/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -8,6 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -102,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => ChatDashboard())),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
