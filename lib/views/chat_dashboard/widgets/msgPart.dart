@@ -4,17 +4,29 @@ import 'package:flutter/material.dart';
 Widget msgPart() {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
-      Container(
-        width: SizeConfig.blockSizeHorizontal * 50,
-        child: Text('Username', style: TextStyle(fontWeight: FontWeight.w500)),
+      Text(
+        'Username',
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 15.0,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.start,
       ),
+      SizedBox(height: 5.0),
       Container(
-        padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1.2),
         width: SizeConfig.blockSizeHorizontal * 50,
         child: Text(
           'Hey, answer me when you get this message, it is important.',
+          style: TextStyle(
+            color: Colors.blueGrey,
+            fontSize: 15.0,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.start,
+          overflow: TextOverflow.ellipsis,
           maxLines: 2,
         ),
       ),
