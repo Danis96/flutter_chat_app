@@ -1,4 +1,4 @@
-import 'package:c/interface/chatInterface.dart';
+import 'package:c/interface/chatDashInterface.dart';
 import 'package:c/views/chat_room/pages/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +15,9 @@ class ChatDashboardViewModel implements ChatDashFirebase {
 
   final db = Firestore.instance;
 
+  
   /// on user tap create chat with that user
+  @override
   createChat(DocumentSnapshot doc, String name, FirebaseUser user,
       BuildContext context) async {
     await db.collection('Users').document(user.email).updateData({'chat$name': []});
