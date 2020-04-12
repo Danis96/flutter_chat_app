@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:c/views/chat_dashboard/widgets/appBar.dart';
 import 'package:c/views/chat_dashboard/widgets/friendsActive.dart';
 import 'package:c/views/chat_dashboard/widgets/chatList.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class ChatDashboard extends StatelessWidget {
+  final FirebaseUser activeUser;
+  ChatDashboard(this.activeUser);
   @override
   Widget build(BuildContext context) {
     /// responsive
@@ -27,7 +31,7 @@ class ChatDashboard extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  friendsActive(),
+                  FriendsActive(activeUser),
                   chatList(),
                 ],
               ),

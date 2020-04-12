@@ -10,17 +10,20 @@ Widget appBarCont() {
       height: 0.0,
       width: 0.0,
     ),
-    title: Text(
-      'Chats',
-      style: TextStyle(
-        color: Color.fromRGBO(28, 28, 28, 1.0),
-        fontSize: SizeConfig.safeBlockHorizontal * 9,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 1.2,
+    title: Container(
+      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
+      child: Text(
+        'Chats',
+        style: TextStyle(
+          color: Color.fromRGBO(28, 28, 28, 1.0),
+          fontSize: SizeConfig.safeBlockHorizontal * 8,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.2,
+        ),
+
       ),
-      textAlign: TextAlign.center,
     ),
     elevation: 0.0,
-    actions: <Widget>[addFriendIcon()],
+    actions: <Widget>[Container(margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2), child: addFriendIcon())],
   );
 }

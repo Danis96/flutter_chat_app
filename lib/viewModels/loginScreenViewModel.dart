@@ -3,15 +3,18 @@ import 'package:c/views/home/pages/signupScreenView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
+
 class LoginScreenViewModel {
   loginUser(BuildContext context, String email, String password) async {
     try {
-      await FirebaseAuth.instance
+      AuthResult result =  await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ChatDashboard()),
+        MaterialPageRoute(builder: (context) => ChatDashboard(user)),
       );
     } catch (e) {
       print(e.toString());
@@ -19,7 +22,7 @@ class LoginScreenViewModel {
   }
 
   signupOnSignin(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => SignupScreenView()),
       );

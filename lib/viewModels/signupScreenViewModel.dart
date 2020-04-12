@@ -25,7 +25,7 @@ class SignupScreenViewModel {
           .createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
 
-      await Firestore.instance.collection('Users').add({
+      await Firestore.instance.collection('Users').document(email).setData({
         'email': email,
         'image': imageURL,
         'name': name,
@@ -35,7 +35,7 @@ class SignupScreenViewModel {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ChatDashboard()),
+        MaterialPageRoute(builder: (context) => ChatDashboard(user)),
       );
     } catch (e) {
       print(e.toString());
