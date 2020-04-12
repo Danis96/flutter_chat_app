@@ -6,4 +6,5 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class ChatDashFirebase {
    Future getFriends();
    createChat(DocumentSnapshot doc, String name, FirebaseUser user,BuildContext context);
+   navigateTo(BuildContext context,String name, FirebaseUser user);
 }
