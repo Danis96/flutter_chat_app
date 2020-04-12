@@ -5,6 +5,6 @@ Widget userImg() {
   /// image Container
   return CircleAvatar(
     radius: 28.0,
-    backgroundImage: NetworkImage(imageURL),
+    backgroundImage: NetworkImage("https://greendestinations.org/wp-content/uploads/2019/05/avatar-exemple.jpg"),
   );
 }

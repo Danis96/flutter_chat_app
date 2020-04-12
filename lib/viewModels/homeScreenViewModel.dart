@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class HomeScreenViewModel {
   loginOnHomeScreen(BuildContext context, String email, String password) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => LoginScreenView()),
     );
   }
 
   signupOnHomeScreen(BuildContext context, String email, String password, String name) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => SignupScreenView()),
     );
