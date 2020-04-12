@@ -8,10 +8,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Chat extends StatefulWidget {
   /// ti  - user koji si ti
   final FirebaseUser user;
+
   /// user s kojim chatas
   final String withChat;
 
-  const Chat({Key key, this.user, this.withChat}) : super(key: key);
+  List<dynamic> chatMessages = [];
+
+  Chat({Key key, this.user, this.withChat}) : super(key: key);
   @override
   _ChatState createState() => _ChatState(withChat: withChat);
 }
@@ -51,6 +54,9 @@ class _ChatState extends State<Chat> {
                     itemCount: docs.length,
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index) {
+                      widget.chatMessages = docs[index].data['chat$withChat'];
+                      print(widget.chatMessages.toString());
+
                       return Message(
                         from: docs[index].data['name'],
                         msgs: docs[index].data['chat$withChat'],
@@ -81,12 +87,19 @@ class _ChatState extends State<Chat> {
                     ),
                   ),
                   RaisedButton(
-                    onPressed: () => ChatViewModel().sendMsg(
-                        messageController,
-                        widget.user.email,
-                        withChat,
-                        widget.user,
-                        scrollController),
+                    onPressed: () {
+                      /// check if chat with that friend already exists
+                      /// if exists just navigate
+                      /// if doesn't create it and navigate
+                      /// work in porgress
+
+                      ChatViewModel().sendMsg(
+                          messageController,
+                          widget.user.email,
+                          withChat,
+                          widget.user,
+                          scrollController);
+                    },
                     child: Text('Send'),
                   )
                 ],
