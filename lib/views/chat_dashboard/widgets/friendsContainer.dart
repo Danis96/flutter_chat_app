@@ -18,7 +18,7 @@ class FriendContainer extends StatelessWidget {
       children: <Widget>[
         Center(
           child: GestureDetector(
-            onTap: () =>  ChatDashboardViewModel().createChat(doc, name, userActive, context) ,
+            onTap: () =>  ChatDashboardViewModel().navigateTo(context, name, userActive, email) ,
                       child: Container(
               padding: EdgeInsets.all(10),
               child: CircleAvatar(

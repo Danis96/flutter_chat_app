@@ -6,19 +6,36 @@ import 'package:flutter/widgets.dart';
 class ChatViewModel implements ChatroomInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
+  final db = Firestore.instance;
 
   @override
-  Future<void> sendMsg(TextEditingController messageController, String email,
-      String name, FirebaseUser user, ScrollController scrollController) async {
+  Future<void> sendMsg(
+    TextEditingController messageController,
+    String email,
+    String name,
+    FirebaseUser user,
+    ScrollController scrollController,
+  ) async {
     if (messageController.text.length > 0) {
       String msg = messageController.text;
-      String dateNow = DateTime.now().toIso8601String().toString();
 
-      await _firestore.collection('Users').document(user.email).updateData({
-        'chat$name': FieldValue.arrayUnion([
-            'from : $email, to :  $name, msg : $msg, date: $dateNow',
-        ])
-      });
+      var documentReference = db
+        .collection('Messages')
+        .document(user.email + '-' + email)
+        .collection(user.email + '-' + email)
+        .document(DateTime.now().millisecondsSinceEpoch.toString());
+
+      Firestore.instance.runTransaction((transaction) async {
+      await transaction.set(
+        documentReference,
+        {
+          'emailFrom': user.email,
+          'emailTo': email,
+          'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+          'content': msg,
+        },
+      );
+    });
       messageController.clear();
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
@@ -26,5 +43,12 @@ class ChatViewModel implements ChatroomInterface {
         duration: const Duration(milliseconds: 300),
       );
     }
+  }
+
+  @override
+  Future getMessages() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection('Messages').getDocuments();
+    return qn.documents;
   }
 }

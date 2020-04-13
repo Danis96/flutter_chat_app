@@ -1,3 +1,4 @@
+import 'package:c/models/messageModel.dart';
 import 'package:c/viewModels/chatDashboardViewModel.dart';
 import 'package:c/viewModels/chatViewModel.dart';
 import 'package:c/views/chat_room/widgets/message.dart';
@@ -11,10 +12,9 @@ class Chat extends StatefulWidget {
 
   /// user s kojim chatas
   final String withChat;
+  final String email;
 
-  List<dynamic> chatMessages = [];
-
-  Chat({Key key, this.user, this.withChat}) : super(key: key);
+  Chat({Key key, this.user, this.withChat, this.email}) : super(key: key);
   @override
   _ChatState createState() => _ChatState(withChat: withChat);
 }
@@ -26,11 +26,9 @@ class _ChatState extends State<Chat> {
 
   _ChatState({this.withChat});
 
-  List<DocumentSnapshot> docs;
-  List<Widget> messages;
-
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
+  List<dynamic> _msgs = [];
 
   @override
   Widget build(BuildContext context) {
@@ -41,31 +39,31 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             Expanded(
               child: FutureBuilder(
-                future: ChatDashboardViewModel().getFriends(),
+                future: ChatViewModel().getMessages(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData)
                     return Center(
                       child: CircularProgressIndicator(),
                     );
 
-                  docs = snapshot.data;
+                  _msgs = snapshot.data
+                      .map((doc) => MessageChat.fromDocument(doc))
+                      .toList();
 
                   return ListView.builder(
-                    itemCount: docs.length,
+                    itemCount: _msgs.length,
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index) {
-                      widget.chatMessages = docs[index].data['chat$withChat'];
-                      print(widget.chatMessages.toString());
+                      
 
                       return Message(
-                        from: docs[index].data['name'],
-                        msgs: docs[index].data['chat$withChat'],
-                        me: widget.user.email == docs[index].data['name'],
-                        text: 'sss',
+                        from: _msgs[index].sender,
+                        me: widget.user.email == _msgs[index].sender,
+                        text: _msgs[index].content,
                       );
                     },
                   );
-                },
+                }, 
               ),
             ),
             Container(
@@ -74,11 +72,12 @@ class _ChatState extends State<Chat> {
                   Expanded(
                     child: TextField(
                       onSubmitted: (value) => ChatViewModel().sendMsg(
-                          messageController,
-                          widget.user.email,
-                          withChat,
-                          widget.user,
-                          scrollController),
+                        messageController,
+                        widget.user.email,
+                        withChat,
+                        widget.user,
+                        scrollController,
+                      ),
                       decoration: InputDecoration(
                         hintText: "Enter a Message...",
                         border: const OutlineInputBorder(),
@@ -94,11 +93,12 @@ class _ChatState extends State<Chat> {
                       /// work in porgress
 
                       ChatViewModel().sendMsg(
-                          messageController,
-                          widget.user.email,
-                          withChat,
-                          widget.user,
-                          scrollController);
+                        messageController,
+                        widget.email,
+                        withChat,
+                        widget.user,
+                        scrollController,
+                      );
                     },
                     child: Text('Send'),
                   )

@@ -13,27 +13,14 @@ class ChatDashboardViewModel implements ChatDashFirebase {
     return qn.documents;
   }
 
-  final db = Firestore.instance;
-
-  
-  /// on user tap create chat with that user
-  
-  
   @override
-  createChat(DocumentSnapshot doc, String name, FirebaseUser user,
-      BuildContext context) async {
-    await db.collection('Users').document(user.email).updateData({'chat$name':[]});
-
-
+  navigateTo(
+    BuildContext context,
+    String name,
+    FirebaseUser user,
+    String email,
+  ) {
     Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => Chat(user: user, withChat: name)));
+        MaterialPageRoute(builder: (_) => Chat(user: user, withChat: name, email: email)));
   }
-
-  @override
-  navigateTo( BuildContext context,String name, FirebaseUser user, ) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => Chat(user: user, withChat: name)));
-  }
-
-  
 }
