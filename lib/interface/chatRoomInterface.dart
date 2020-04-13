@@ -5,5 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class ChatroomInterface {
   Future<void> sendMsg(TextEditingController messageController, String email,
       String name, FirebaseUser user, ScrollController scrollController);
-  Future getMessages();
+  Future getMessages(
+    String email,
+    FirebaseUser user,
+  );
 }
