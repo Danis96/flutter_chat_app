@@ -39,7 +39,7 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             Expanded(
               child: FutureBuilder(
-                future: ChatViewModel().getMessages(),
+                future: ChatViewModel().getMessages(widget.email, widget.user),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData)
                     return Center(
@@ -54,8 +54,6 @@ class _ChatState extends State<Chat> {
                     itemCount: _msgs.length,
                     controller: scrollController,
                     itemBuilder: (BuildContext context, int index) {
-                      
-
                       return Message(
                         from: _msgs[index].sender,
                         me: widget.user.email == _msgs[index].sender,
@@ -63,7 +61,8 @@ class _ChatState extends State<Chat> {
                       );
                     },
                   );
-                }, 
+
+                },
               ),
             ),
             Container(
@@ -87,11 +86,7 @@ class _ChatState extends State<Chat> {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      /// check if chat with that friend already exists
-                      /// if exists just navigate
-                      /// if doesn't create it and navigate
-                      /// work in porgress
-
+                      setState(() {});
                       ChatViewModel().sendMsg(
                         messageController,
                         widget.email,

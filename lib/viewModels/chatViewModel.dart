@@ -44,11 +44,23 @@ class ChatViewModel implements ChatroomInterface {
       );
     }
   }
+  
 
   @override
-  Future getMessages() async {
+  Future getMessages(
+    String email,
+    FirebaseUser user,
+  ) async {
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection('Messages').getDocuments();
+    QuerySnapshot qn = await firestore.collection('Messages')
+    /// naziv dokumenta koji se sastoji iz user.email - email
+                  .document(user.email+ '-' +email)
+    // naziv kolekcije koji se sastoji iz user.email - email
+                  .collection(user.email+ '-' +email)
+                  .orderBy('timestamp', descending: false)
+                  .limit(20)
+                  .getDocuments();
     return qn.documents;
-  }
+
+}
 }
